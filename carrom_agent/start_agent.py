@@ -72,7 +72,11 @@ def best_action(target):
     #striker to start from (x,y)
     y = 145
     x = target[0] + float(target[0]-pocket[0])/float(target[1]-pocket[1]) * (y-target[1])
-    angle = math.atan2(target[1]-y, x-target[0])
+    if x<170 or x>630:
+        x = 400
+    angle = 180/pi * math.atan2(target[1]-y, target[0]-x)
+    if angle < -45:
+        angle = angle+360
 
     return (x, angle)
 
