@@ -1,6 +1,6 @@
 # A Sample Carrom Agent to get you started. The logic for parsing a state
 # is built in
-
+from Utils import *
 from thread import *
 import time
 import socket
@@ -8,6 +8,7 @@ import sys
 import argparse
 import random
 import ast
+import math
 
 # Parse arguments
 
@@ -37,6 +38,7 @@ color = args.color
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 s.connect((host, port))
+
 
 
 # Given a message from the server, parses it and returns state and action
