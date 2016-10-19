@@ -1,6 +1,5 @@
 # A Sample Carrom Agent to get you started. The logic for parsing a state
 # is built in
-from Utils import *
 from thread import *
 import time
 import socket
@@ -51,20 +50,80 @@ def parse_state_message(msg):
     state = ast.literal_eval(s[0])
     return state, reward
 
+all_pockets = [(0, 0), (0, 800), (800, 800), (800, 0)]
+pi = 3.14159
+
+
+def dist(pt1, pt2):
+    return math.sqrt(pow(pt1[0]-pt2[0],2)+pow(pt1[1]-pt2[1],2))
+
+def nearest_pocket(coin):
+    ret_pock = (0,0)
+    min_dist = dist(coin, (0,0))
+    for i in xrange(1,3):
+        if dist(coin, all_pockets[i]) < min_dist:
+            min_dist = dist(coin, all_pockets[i])
+            ret_pock = all_pockets[i]
+    return ret_pock 
+
+def best_action(target):
+    # y=145 is the location of line from which to strike and it stretches from x=170 to x=630
+    pocket = nearest_pocket(target)
+    #striker to start from (x,y)
+    y = 145
+    x = target[0] + float(target[0]-pocket[0])/float(target[1]-pocket[1]) * (y-target[1])
+    angle = math.atan2(target[1]-y, x-target[0])
+
+    return (x, angle)
+
+
+
+def num_neighbors(coin, all_coins):
+    ret = 0
+    for c in all_coins:
+        if c!=coin and dist(c, coin)<=50 :
+            ret=ret+1
+    return ret
 
 def agent_1player(state):
 
     flag = 1
     # print state
     try:
+        # print state
         state, reward = parse_state_message(state)  # Get the state and reward
+        # print state, reward
     except:
         pass
 
     # Assignment 4: your agent's logic should be coded here
 
-    a = str(random.random()) + ',' + \
-        str(random.randrange(-45, 225)) + ',' + str(random.random())
+    coins = state["White_Locations"]+state["Black_Locations"]+state["Red_Location"]
+
+    #neighbors within a radius of 50
+    n_neighbors_max = 0
+    targets = []
+    for coin in coins:
+        temp = num_neighbors(coin, coins)
+        if temp > n_neighbors_max:
+            n_neighbors_max = temp
+
+    for coin in coins :
+        if num_neighbors(coin, coins) == n_neighbors_max :
+            targets.append(coin)
+
+    final_target = random.choice(targets)
+
+    (x_loc, angle) = best_action(final_target)
+
+    position = float(x_loc-170)/float(460)
+    # if position < 0:
+    #     position = 0
+    # elif position > 1:
+    #     position = 1
+
+    a = str(position) + ',' + \
+        str(angle) + ',' + str(1)
 
     try:
         s.send(a)
