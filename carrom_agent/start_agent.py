@@ -60,7 +60,7 @@ def dist(pt1, pt2):
 def nearest_pocket(coin):
     ret_pock = (0,0)
     min_dist = dist(coin, (0,0))
-    for i in xrange(1,3):
+    for i in xrange(1,4):
         if dist(coin, all_pockets[i]) < min_dist:
             min_dist = dist(coin, all_pockets[i])
             ret_pock = all_pockets[i]
@@ -96,7 +96,7 @@ def agent_1player(state):
     try:
         # print state
         state, reward = parse_state_message(state)  # Get the state and reward
-        # print state, reward
+        # print state, reward, type(state)
     except:
         pass
 
@@ -116,8 +116,9 @@ def agent_1player(state):
         if num_neighbors(coin, coins) == n_neighbors_max :
             targets.append(coin)
 
+    print "TARGETS", targets 
     final_target = random.choice(targets)
-
+    print "FINAL TARGET", final_target
     (x_loc, angle) = best_action(final_target)
 
     position = float(x_loc-170)/float(460)
