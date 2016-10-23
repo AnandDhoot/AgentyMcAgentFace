@@ -78,7 +78,9 @@ def best_action(target):
     if angle < -45:
         angle = angle+360
 
-    return (x, angle)
+    distance = dist(target,pocket)
+    force = distance/(400*math.sqrt(2))
+    return (x, angle,force)
 
 
 
@@ -119,7 +121,7 @@ def agent_1player(state):
     print "TARGETS", targets 
     final_target = random.choice(targets)
     print "FINAL TARGET", final_target
-    (x_loc, angle) = best_action(final_target)
+    (x_loc, angle,force) = best_action(final_target)
 
     position = float(x_loc-170)/float(460)
     # if position < 0:
@@ -127,8 +129,10 @@ def agent_1player(state):
     # elif position > 1:
     #     position = 1
 
+    # a = str(position) + ',' + \
+        # str(angle) + ',' + str(1)
     a = str(position) + ',' + \
-        str(angle) + ',' + str(1)
+        str(angle) + ',' + str(force)
 
     try:
         s.send(a)
