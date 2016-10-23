@@ -200,9 +200,15 @@ python simulation.py
 
 Please read Readme.txt
 
-You must write a carrom agent, which clears the single player board in <30 turns on average. generate_stats.py will be called for >=1000 experiments. If the data is invalid, for eg: you have a connection timeout/runtime error, the statistics will not be counted, so make sure your agent is fully functional (in the sl2 machines) before submission. If confused, open **start_agent.py**, which has helpful built in logic to connect to the carrom server, parse the state and send an action.
+You must write a carrom agent, which clears the single player board in <=30 turns on average. generate_stats.py will be called for >=1000 experiments. If the data is invalid, for eg: you have a connection timeout/runtime error/exceed 500 strikes, the statistics will not be counted, so make sure your agent is fully functional (in the sl2 machines) before submission. If confused, open **start_agent.py**, which has helpful built in logic to connect to the carrom server, parse the state and send an action.
 
 ### Changes
 <b>Version 1.0 - Initial release</b>
 
-Single player server is ready.There might be some issues with the doubles server, they will be fixed later.
+Single player server is ready. There might be some issues with the doubles server, they will be fixed later.
+The following changes have been made to the server. Please use the latest version of the Server for your assignment.
+
+- fixed fouls in 1p server
+- made pockets symmetric
+- fixed angle range
+- fixed one step simulations
