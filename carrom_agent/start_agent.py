@@ -78,8 +78,8 @@ def best_action(target):
     if angle < -45:
         angle = angle+360
 
-    distance = dist(target,pocket)
-    force = distance/(400*math.sqrt(2))
+    distance = dist((x, y), pocket)
+    force = distance/(800*math.sqrt(2))*.25
     return (x, angle,force)
 
 
@@ -141,6 +141,9 @@ def agent_1player(state):
 
     # a = str(position) + ',' + \
         # str(angle) + ',' + str(1)
+    
+    if len(coins) > 10:
+        force =1
     a = str(position) + ',' + \
         str(angle) + ',' + str(force)
 
