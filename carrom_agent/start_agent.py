@@ -8,6 +8,11 @@ import argparse
 import random
 import ast
 import math
+import os
+
+sys.path.insert(0, './1_player_server/')
+import Utils
+
 
 # Parse arguments
 
@@ -50,7 +55,7 @@ def parse_state_message(msg):
     state = ast.literal_eval(s[0])
     return state, reward
 
-all_pockets = [(0, 0), (0, 800), (800, 800), (800, 0)]
+all_pockets = [(755.9, 755.9), (44.1, 755.9), (755.9, 44.1), (44.1, 44.1)]
 pi = 3.14159
 
 
@@ -58,15 +63,17 @@ def dist(pt1, pt2):
     return math.sqrt(pow(pt1[0]-pt2[0],2)+pow(pt1[1]-pt2[1],2))
 
 def nearest_pocket(coin):
-    ret_pock = (0,0)
-    min_dist = dist(coin, (0,0))
-    for i in xrange(1,4):
+    ret_pock = all_pockets[0]
+    min_dist = dist(coin, ret_pock)
+    lim = 4
+    if coin[1]>175: lim = 2
+    for i in xrange(1,lim):
         if dist(coin, all_pockets[i]) < min_dist:
             min_dist = dist(coin, all_pockets[i])
             ret_pock = all_pockets[i]
     return ret_pock 
 
-def best_action(target):
+def best_action(target, coins):
     # y=145 is the location of line from which to strike and it stretches from x=170 to x=630
     pocket = nearest_pocket(target)
     #striker to start from (x,y)
@@ -74,12 +81,18 @@ def best_action(target):
     x = target[0] + float(target[0]-pocket[0])/float(target[1]-pocket[1]) * (y-target[1])
     if x<170 or x>630:
         x = 400
+    
+    while not isPosValid((x, 145), coins): 
+        x = random.randrange(170, 630)
+
     angle = 180/pi * math.atan2(target[1]-y, target[0]-x)
     if angle < -45:
         angle = angle+360
+    force = 1
 
-    distance = dist((x, y), pocket)
-    force = distance/(800*math.sqrt(2))*.25
+    # distance = dist(target, pocket)
+    # force = distance/(800*math.sqrt(2))*.25
+    # force = distance/(400*math.sqrt(2))*.25
     return (x, angle,force)
 
 
@@ -87,9 +100,16 @@ def best_action(target):
 def num_neighbors(coin, all_coins):
     ret = 0
     for c in all_coins:
-        if c!=coin and dist(c, coin)<=50 :
+        if c!=coin and dist(c, coin)<=100:
             ret=ret+1
     return ret
+
+def isPosValid(pos, coins):
+    for coin in coins: 
+        if(dist(pos, coin) < (Utils.COIN_RADIUS + Utils.STRIKER_RADIUS)):
+            return False
+    return True
+
 
 def agent_1player(state):
 
@@ -128,12 +148,17 @@ def agent_1player(state):
         if num_neighbors(coin, coins) == n_neighbors_max :
             targets.append(coin)
 
-    print "TARGETS", targets 
+    # print "TARGETS", targets 
     final_target = random.choice(targets)
     print "FINAL TARGET", final_target
-    (x_loc, angle,force) = best_action(final_target)
+    (x_loc, angle,force) = best_action(final_target, coins)
+
+    # while not isPosValid((x_loc, 145), coins): 
+    #     x_loc = random.randrange(170, 630)
 
     position = float(x_loc-170)/float(460)
+
+
     # if position < 0:
     #     position = 0
     # elif position > 1:
