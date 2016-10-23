@@ -102,7 +102,17 @@ def agent_1player(state):
 
     # Assignment 4: your agent's logic should be coded here
 
+    if not state:
+        # print "\n\n\n\n\n Exiting \n\n\n\n\n"
+        return 0
+
+
     coins = state["White_Locations"]+state["Black_Locations"]+state["Red_Location"]
+
+    # print "\n\n\n\nCoins:", coins
+    # print "\n\n\n"
+    # if not coins:
+    #     return 0
 
     #neighbors within a radius of 50
     n_neighbors_max = 0
