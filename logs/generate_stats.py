@@ -21,8 +21,8 @@ try:
 			# turns += curr_turns
 			time += float(sample.split("Realtime taken: ")[1].split(" s")[0])
 
-    print "Average turn to clear the board: ", float(turns)/experiments
     print "Maximum number of turns: ", worst_case
+    print "Average turn to clear the board: ", turns*1.0/experiments
     print "Total time taken: ", time
     print "Number of Experiments: ", experiments
     if flag == 0:
