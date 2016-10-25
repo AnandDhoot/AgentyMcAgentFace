@@ -18,7 +18,7 @@ try:
         else:
 			curr_turns = int(sample.split("Cleared Board in ")[1].split(" turns")[0])
 			worst_case = max(worst_case, curr_turns)
-			# turns += curr_turns
+			turns += curr_turns
 			time += float(sample.split("Realtime taken: ")[1].split(" s")[0])
 
     print "Maximum number of turns: ", worst_case
