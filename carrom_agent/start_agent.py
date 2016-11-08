@@ -47,7 +47,10 @@ s.connect((host, port))
 def parse_state_message(msg):
     s = msg.split(";REWARD")
     s[0] = s[0].replace("Vec2d", "")
-    reward = float(s[1])
+    try:
+        reward = float(s[1])
+    except:
+        reward = 0
     state = ast.literal_eval(s[0])
     return state, reward
 
@@ -86,7 +89,7 @@ def agent_2player(state, color):
 
     flag = 1
 
-    # Can be ignored for now
+   
     a = str(random.random()) + ',' + \
         str(random.randrange(-45, 225)) + ',' + str(random.random())
 
