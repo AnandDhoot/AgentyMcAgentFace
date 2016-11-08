@@ -38,7 +38,7 @@ parser.add_argument('-rs', '--random-seed', dest="rng", type=int,
                     help='Random Seed')
 
 parser.add_argument('-a1', '--agent-1-location', dest="a1", type=str,
-                    default='carrom_agent/start_agent.py',
+                    default='carrom_agent/greedy_agent_2p.py',
                     help='relative/full path to agent')
 
 parser.add_argument('-a2', '--agent-2-location', dest="a2", type=str,
