@@ -4,7 +4,6 @@ import math
 
 import util
 
-
 def best_action(target, coins):
     # y=145 is the location of line from which to strike and it stretches from x=170 to x=630
     pocket = util.nearest_pocket(target)
@@ -37,20 +36,33 @@ def num_neighbors(coin, all_coins):
     return ret
 
 
-def getAction(state):
-    # Assignment 4: your agent's logic should be coded here
+def getAction(state, turn):
 
     if not state:
         # print "\n\n\n\n\n Exiting \n\n\n\n\n"
         return 0
 
+    if(turn == 1):
+        # Some good turns. 
+        # TODO - Find more good turns near these
+        # TODO - Find the best move
+        # position, angle, force = 0.48, 86, 0.55
+        position, angle, force = 0.39, 80, 0.64
+        # position, angle, force = 0.33, 76, 0.85
+        # position, angle, force = 0.63, 102, 1
+        # position, angle, force = 0.66, 106, 0.88
+        # position, angle, force = 0.66, 96, 1
+        # position, angle, force = 0.54, 90, 0.64
+        # position, angle, force = 0.63, 94, 0.91
+        # position, angle, force = 0.69, 100, 0.91
+        # position, angle, force = 0.36, 76, 0.7
+        # position, angle, force = 0.63, 100, 0.85
+
+        return position, angle, force
 
     coins = state["White_Locations"]+state["Black_Locations"]+state["Red_Location"]
 
-    # print "\n\n\n\nCoins:", coins
-    # print "\n\n\n"
-    # if not coins:
-    #     return 0
+    
 
     #neighbors within a radius of 50
     n_neighbors_max = 0
@@ -83,12 +95,14 @@ def getAction(state):
     # a = str(position) + ',' + \
         # str(angle) + ',' + str(1)
     
-    if len(coins) < 10:
-        force = random.randrange(40,60)
-        force = force/100.0
+    # if len(coins) < 10:
+    #     force = random.randrange(40,60)
+    #     force = force/100.0
 
-    if len(coins) < 5:
-        force = random.randrange(5,15)
-        force = force/100.0
+    # if len(coins) < 5:
+    #     force = random.randrange(5,15)
+    #     force = force/100.0
+
+
 
     return position, angle, force

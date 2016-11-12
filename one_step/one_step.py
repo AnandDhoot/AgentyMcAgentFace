@@ -7,7 +7,7 @@ from math import pi
 import time
 
 
-noise = 1
+noise = 0
 if noise == 1:
     noise1 = 0.005
     noise2 = 0.01
@@ -21,7 +21,7 @@ else:
 # Validate parsed action
 
 def validate(action, state):
-    print "Server received action: ", action
+    # print "Server received action: ", action
     position = action[0]
     angle = action[1]
     force = action[2]
@@ -157,7 +157,7 @@ def simulate(state, action):
                 if coin.color == RED_COIN_COLOR:
                     state_new["Red_Location"].append(coin.body.position)
             if foul == True:
-                print "Foul.. striker pocketed"
+                # print "Foul.. striker pocketed"
                 for coin in pocketed:
                     if coin[0].color == BLACK_COIN_COLOR:
                         state_new["Black_Locations"].append(ret_pos(state_new))
@@ -170,12 +170,12 @@ def simulate(state, action):
 
             if (queen_pocketed == True and foul == False):
                 if len(state_new["Black_Locations"]) + len(state_new["White_Locations"]) == 18:
-                    print "The queen cannot be the first to be pocketed: player ", player
+                    # print "The queen cannot be the first to be pocketed: player ", player
                     state_new["Red_Location"].append(ret_pos(state_new))
                 else:
                     if score - prevscore > 0:
                         score += 3
-                        print "Queen pocketed and covered in one shot"
+                        # print "Queen pocketed and covered in one shot"
                     else:
                         queen_flag = True
 
