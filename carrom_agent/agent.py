@@ -20,8 +20,10 @@ def best_action(target, coins):
     angle = 180/util.pi * math.atan2(target[1]-y, target[0]-x)
     if angle < -45:
         angle = angle+360
+    
+    force = random.randrange(80,100)
+    force = force/100.0
     force = 1
-
     # distance = dist(target, pocket)
     # force = distance/(800*math.sqrt(2))*.25
     # force = distance/(400*math.sqrt(2))*.25
@@ -81,7 +83,12 @@ def getAction(state):
     # a = str(position) + ',' + \
         # str(angle) + ',' + str(1)
     
-    if len(coins) > 10:
-        force = 1
+    if len(coins) < 10:
+        force = random.randrange(40,60)
+        force = force/100.0
+
+    if len(coins) < 5:
+        force = random.randrange(5,15)
+        force = force/100.0
 
     return position, angle, force
