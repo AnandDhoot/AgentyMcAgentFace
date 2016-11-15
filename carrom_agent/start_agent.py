@@ -11,7 +11,8 @@ import math
 import os
 
 import agent
-
+import agent2Player
+import oldAgent
 
 # Parse arguments
 parser = argparse.ArgumentParser()
@@ -88,10 +89,31 @@ def agent_1player(state, turn):
 def agent_2player(state, color, turn):
 
     flag = 1
+    
+
+    # print state
+    try:
+        # print state
+        state, reward = parse_state_message(state)  # Get the state and reward
+        # print state, reward, type(state)
+    except:
+        pass
+
+    if not state:
+        # print "\n\n\n\n\n Exiting \n\n\n\n\n"
+        return 0
+
+    if(color == 'White'):
+        position, angle, force = agent2Player.getAction(state, turn, color)
+    else:
+        position, angle, force = oldAgent.getAction(state, turn, color)
+
+    a = str(position) + ',' + \
+        str(angle) + ',' + str(force)
 
    
-    a = str(random.random()) + ',' + \
-        str(random.randrange(-45, 225)) + ',' + str(random.random())
+    # a = str(random.random()) + ',' + \
+    #     str(random.randrange(-45, 225)) + ',' + str(random.random())
 
     try:
         s.send(a)

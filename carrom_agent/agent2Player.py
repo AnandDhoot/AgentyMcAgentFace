@@ -8,7 +8,7 @@ import util
 sys.path.append('one_step/')
 import one_step
 
-forceControlCoins = 7
+forceControlCoins = 18
 queenFocusCoins = 6
 pocketCloseness = 240     # Reduce force if coin is close to pocket
 
@@ -45,32 +45,6 @@ def getLocation(target):
 
     return loc
 
-
-def old_action(target, coins):
-    targetLoc = getLocation(target)
-    pocket = util.nearest_pocket(target)
-    pocketLoc = getLocation(pocket)
-
-    y = util.startpos_y
-    x = target[0] + float(target[0]-pocket[0])/float(target[1]-pocket[1]) * (y-target[1])
-
-    if x<170 or x>630:
-        x = 400
-    
-    posValid = True
-    while not util.isPosValid((x, util.startpos_y), coins): 
-        x = random.randrange(170, 630)
-        posValid = False
-
-    angle = 180/util.pi * math.atan2(target[1]-y, target[0]-x)
-    if angle < -45:
-        angle = angle+360
-    
-    force = random.randrange(80,100)
-    force = force/100.0
-    force = 1
-
-    return x, angle, force, posValid
 
 def directShotAvl(targets):
     result = []
@@ -256,7 +230,7 @@ def highPrecision(coins, redLocation):
 prevBWCoins = []
 numSame = 0
 flag = False
-def getAction(state, turn):
+def getAction(state, turn, color=None):
     global prevBWCoins
     global numSame
     global flag
@@ -265,7 +239,14 @@ def getAction(state, turn):
         # print "\n\n\n\n\n Exiting \n\n\n\n\n"
         return 0
 
-    BWcoins = state["White_Locations"] + state["Black_Locations"]
+    print(color)
+    if(color is None):
+        BWcoins = state["White_Locations"] + state["Black_Locations"]
+    elif color == 'White':
+        BWcoins = state["White_Locations"]
+    elif color == 'Black':
+        BWcoins = state["Black_Locations"]
+
     if(len(prevBWCoins) == len(BWcoins)):
         numSame += 1
     else:
@@ -276,17 +257,7 @@ def getAction(state, turn):
 
     if(turn == 1):
         # Some good turns. 
-        # position, angle, force = 0.48, 86, 0.55
-        position, angle, force = 0.39, 80, 0.64
-        # position, angle, force = 0.33, 76, 0.85
-        # position, angle, force = 0.63, 102, 1
-        # position, angle, force = 0.66, 106, 0.88
-        # position, angle, force = 0.66, 96, 1
-        # position, angle, force = 0.54, 90, 0.64
-        # position, angle, force = 0.63, 94, 0.91
-        # position, angle, force = 0.69, 100, 0.91
-        # position, angle, force = 0.36, 76, 0.7
-        # position, angle, force = 0.63, 100, 0.85
+        position, angle, force = 0, 0, 0
 
         return position, angle, force
 
