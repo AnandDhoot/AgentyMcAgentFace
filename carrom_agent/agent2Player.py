@@ -30,6 +30,7 @@ def num_neighbors(coin, all_coins, dist):
             ret=ret+1
             nbrs += [c]
     return ret, nbrs
+
 def getLocation(target):
     loc = 'None' 
     if(target[0] < util.startpos_y and target[1] > target[0] and target[0] + target[1] < 800):
@@ -45,10 +46,9 @@ def getLocation(target):
 
     return loc
 
-
-def directShotAvl(targets):
+def directShotAvl(coins, allCoins):
     result = []
-    for target in targets:
+    for target in coins:
         pocket = util.nearest_pocket(target)
         x = target[0] + float(target[0]-pocket[0])/float(target[1]-pocket[1]) * (util.startpos_y-target[1])
 
@@ -140,7 +140,7 @@ def getForce(target, x, pocket, directShot, coins, angleChange):
 
         force = forceBackwardMin + forceBackwardAdd * (actDist - minDist) / (maxDist - minDist)
 
-    if not(force == forceBase or force == forceWings):
+    if not(force == 0.3 or force == forceWings):
         angleChange = 0
 
     if(len(coins) < 10): 
@@ -188,14 +188,17 @@ def highForce(coins):
     
     return x_loc, angle, force
 
-def highPrecision(coins, redLocation):
-    targets = directShotAvl(coins)
+def highPrecision(coins, redLocation, BWcoins, allCoins):
+    targets = directShotAvl(coins, allCoins)
     print('Direct shot available for %d coins' % len(targets))
+    print(targets)
 
     if(len(targets) == 0):
-        targets = coins    
+        print('-----------Choosing a random coin------------')
+        targets = coins
+        random.shuffle(targets)    
 
-    if(len(redLocation) > 0 and random.random() < 0.5 + 1.0/(len(coins))):
+    if(len(BWcoins) <= 3 and len(redLocation) > 0 and random.random() < 0.5 + 1.0/(len(coins))):
         print('Running behind the queen')
         targets = redLocation
 
@@ -254,11 +257,10 @@ def getAction(state, turn, color=None):
     prevBWCoins = BWcoins
     
     coins = state['Red_Location'] + BWcoins
+    allCoins = state['Red_Location'] + state["White_Locations"] + state["Black_Locations"]
 
     if(turn == 1):
-        # Some good turns. 
         position, angle, force = 0, 0, 0
-
         return position, angle, force
 
     
@@ -267,7 +269,7 @@ def getAction(state, turn, color=None):
     else:
         print('Precision')
         flag = True
-        x_loc, angle, force = highPrecision(coins, state['Red_Location'])
+        x_loc, angle, force = highPrecision(coins, state['Red_Location'], BWcoins, allCoins)
 
     position = float(x_loc-170)/float(460)
 
