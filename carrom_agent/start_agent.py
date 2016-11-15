@@ -11,7 +11,8 @@ import math
 import os
 
 import agent
-
+import agent2Player
+import oldAgent
 
 # Parse arguments
 parser = argparse.ArgumentParser()
@@ -57,7 +58,7 @@ def parse_state_message(msg):
 
 
 
-def agent_1player(state):
+def agent_1player(state, turn):
     flag = 1
     # print state
     try:
@@ -71,7 +72,7 @@ def agent_1player(state):
         # print "\n\n\n\n\n Exiting \n\n\n\n\n"
         return 0
 
-    position, angle, force = agent.getAction(state)
+    position, angle, force = agent.getAction(state, turn)
     a = str(position) + ',' + \
         str(angle) + ',' + str(force)
 
@@ -85,13 +86,34 @@ def agent_1player(state):
     return flag
 
 
-def agent_2player(state, color):
+def agent_2player(state, color, turn):
 
     flag = 1
+    
+
+    # print state
+    try:
+        # print state
+        state, reward = parse_state_message(state)  # Get the state and reward
+        # print state, reward, type(state)
+    except:
+        pass
+
+    if not state:
+        # print "\n\n\n\n\n Exiting \n\n\n\n\n"
+        return 0
+
+    if(color == 'White'):
+        position, angle, force = agent2Player.getAction(state, turn, color)
+    else:
+        position, angle, force = oldAgent.getAction(state, turn, color)
+
+    a = str(position) + ',' + \
+        str(angle) + ',' + str(force)
 
    
-    a = str(random.random()) + ',' + \
-        str(random.randrange(-45, 225)) + ',' + str(random.random())
+    # a = str(random.random()) + ',' + \
+    #     str(random.randrange(-45, 225)) + ',' + str(random.random())
 
     try:
         s.send(a)
@@ -103,12 +125,14 @@ def agent_2player(state, color):
     return flag
 
 
+turn = 0
 while 1:
     state = s.recv(1024)  # Receive state from server
+    turn += 1
     if num_players == 1:
-        if agent_1player(state) == 0:
+        if agent_1player(state, turn) == 0:
             break
     elif num_players == 2:
-        if agent_2player(state, color) == 0:
+        if agent_2player(state, color, turn) == 0:
             break
 s.close()
