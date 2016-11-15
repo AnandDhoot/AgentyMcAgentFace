@@ -259,7 +259,7 @@ def getAction(state, turn, color=None):
     coins = state['Red_Location'] + BWcoins
     allCoins = state['Red_Location'] + state["White_Locations"] + state["Black_Locations"]
 
-    if(turn == 1):
+    if(turn == 1 and color == "White"):
         position, angle, force = 0, 0, 0
         return position, angle, force
 

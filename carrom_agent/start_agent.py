@@ -103,17 +103,11 @@ def agent_2player(state, color, turn):
         # print "\n\n\n\n\n Exiting \n\n\n\n\n"
         return 0
 
-    if(color == 'White'):
-        position, angle, force = agent2Player.getAction(state, turn, color)
-    else:
-        position, angle, force = oldAgent.getAction(state, turn, color)
+    position, angle, force = agent2Player.getAction(state, turn, color)
 
     a = str(position) + ',' + \
         str(angle) + ',' + str(force)
 
-   
-    # a = str(random.random()) + ',' + \
-    #     str(random.randrange(-45, 225)) + ',' + str(random.random())
 
     try:
         s.send(a)
