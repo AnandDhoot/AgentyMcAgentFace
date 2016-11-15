@@ -5,8 +5,6 @@ import math
 import sys
 
 import util
-sys.path.append('one_step/')
-import one_step
 
 forceControlCoins = 7
 queenFocusCoins = 6
