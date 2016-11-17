@@ -108,8 +108,8 @@ def num_neighbors(coin, target_coins, opp_coins, queen):
             ret=ret+1
 
 
-    for c in opp_coins:
-        ret = ret-1;
+    # for c in opp_coins:
+    #     ret = ret-1;
 
     return ret
 
@@ -153,7 +153,7 @@ def agent_2player(state, color):
         # print "\n\n\n\n\n Exiting \n\n\n\n\n"
         return 0
 
-    print "\n\n\n####################\n MY AGENT \n####################\n"
+    # print "\n\n\n####################\n MY AGENT \n####################\n"
 
 
     if color == "White" :
@@ -190,14 +190,14 @@ def agent_2player(state, color):
     a = str(position) + ',' + \
         str(angle) + ',' + str(force)
 
-    print "Action taken : " + a + "\n\n"
+    # print "Action taken : " + a + "\n\n"
     
     start_time = timeit.default_timer()
     (new_state, score_inc) = simulate(state, (x_loc, angle, force))
     elapsed = timeit.default_timer() - start_time
-    print "time taken to simulate : " + str(elapsed)+"\n"
+    # print "time taken to simulate : " + str(elapsed)+"\n"
 
-    print "\n\n##################################\n"
+    # print "\n\n##################################\n"
 
     try:
         s.send(a)
