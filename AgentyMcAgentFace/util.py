@@ -2,8 +2,8 @@ from __future__ import print_function
 import sys
 import math
 
-sys.path.insert(0, './1_player_server/')
-import Utils
+# sys.path.insert(0, './1_player_server/')
+# import Utils
 
 startpos_y = 140
 all_pockets = [(755.9, 755.9), (44.1, 755.9), (755.9, 44.1), (44.1, 44.1)]
@@ -33,7 +33,7 @@ def nearest_pocket(coin):
 
 def isPosValid(pos, coins):
     for coin in coins: 
-        if(dist(pos, coin) < (Utils.COIN_RADIUS + Utils.STRIKER_RADIUS)):
+        if(dist(pos, coin) < (COIN_RADIUS + STRIKER_RADIUS)):
             return False
     return True
 
