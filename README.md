@@ -1,6 +1,17 @@
 # carrom-cs747
 Carrom_rl
 
+An agent to play the game of Carrom implemented as a part of the course CS 747 - Foundations of Intelligent and Learning Agents. [[report](https://github.com/AnandDhoot/carrom-cs747/blob/master/AgentyMcAgentFace/report.pdf)]   
+We created agents to play the single player as well as the two-player version of the game.  
+
+Apart from creating a rule-based strategy for the agent, Reinforcement Learning techiniques such as the Actor-Critic method and Q-learning were implemented and evaluated.  
+
+The agent was built on the game simulator present at [this repository](https://github.com/samiranrl/Carrom_rl). 
+
+
+
+# Game simulator
+
 An open source Carrom Simulator interface for testing intelligent/learning agents.
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
