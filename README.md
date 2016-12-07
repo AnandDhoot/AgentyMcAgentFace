@@ -1,6 +1,4 @@
 # carrom-cs747
-Carrom_rl
-
 An agent to play the game of Carrom implemented as a part of the course CS 747 - Foundations of Intelligent and Learning Agents. [[report](https://github.com/AnandDhoot/carrom-cs747/blob/master/AgentyMcAgentFace/report.pdf)]   
 We created agents to play the single player as well as the two-player version of the game.  
 
